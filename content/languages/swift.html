@@ -1,0 +1,51 @@
+--- 
+title: Floating-point cheat sheet for Swift
+description: Tips for using floating-point and decimal numbers in Swift
+--- 
+
+Floating-Point Types
+--------
+Almost all platforms map Swift floats to [IEEE 754](/formats/fp/)
+double precision.
+
+		let f = 0.1 
+
+Decimal Types
+-------------
+Swift has an [arbitrary-precision](/formats/exact/) decimal type named <code>Decimal</code> in the <code>decimal</code> module, which also allows to choose the [rounding mode](/errors/rounding/).
+
+		let a = Decimal(0.1)
+		let b = Decimal(0.2)
+		let c = a + b # returns a Decimal representing exactly 0.3
+
+How to Round
+------------
+To get a string:
+
+        String(format: "%.2f", 1.2399) # returns "1.24"
+        String(format: "%.3f", 1.2399) # returns "1.240"
+        String(format: "%.2f", 1.2399) # returns "1.20"
+		
+To print to standard output:
+
+		print(String(format: "%.2f", 1.2399)) # just use print and String(format:_:...) method inside it
+		
+Specific [rounding modes](/errors/rounding/) and other parameters can be defined in NumberFormatter().RoundingMode:
+
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.minimumFractionDigits = 2
+        formatter.maximumFractionDigits = 2
+
+print(formatter.string(from: 2.625)) // "2.62"
+print(formatter.string(from: 2.635)) // "2.64"
+
+
+
+Resources 
+---------
+* [FloatingPoint | Apple Developer Documentation](https://developer.apple.com/documentation/swift/floatingpoint)
+* [Formatting numbers in Swift](https://www.swiftbysundell.com/articles/formatting-numbers-in-swift/)
+* [NumberFormatter.RoundingMode - Apple Developer Documentation](https://developer.apple.com/documentation/foundation/numberformatter/roundingmode)
+* [What is NSNumberFormatter default roundingMode](https://stackoverflow.com/questions/38607869/what-is-nsnumberformatter-default-roundingmode)
+
