@@ -18,44 +18,47 @@
 <p>Almost all platforms map Swift floats to <a href="/formats/fp/">IEEE 754</a>
 double precision.</p>
 
-<pre><code>	f = 0.1 
+<pre><code>	let f = 0.1  
 </code></pre>
 
 <h2 id="decimal-types">Decimal Types</h2>
 <p>Swift has an <a href="/formats/exact/">arbitrary-precision</a> decimal type named <code>Decimal</code> in the <code>decimal</code> module, which also allows to choose the <a href="/errors/rounding/">rounding mode</a>.</p>
 
-<pre><code>	a = Decimal('0.1')
-	b = Decimal('0.2')
-	c = a + b # returns a Decimal representing exactly 0.3
+<pre><code>	let a = Decimal(0.1)
+	let b = Decimal(0.2)
+	let c = a + b # returns a Decimal representing exactly 0.3
 </code></pre>
 
 <h2 id="how-to-round">How to Round</h2>
 <p>To get a string:</p>
 
-<pre><code>	"%.2f" % 1.2399 # returns "1.24"
-	"%.3f" % 1.2399 # returns "1.240"
-	"%.2f" % 1.2 # returns "1.20"
+<pre><code>	String(format: "%.2f", 1.2399) # returns "1.24"
+	String(format: "%.3f", 1.2399) # returns "1.240"
+	String(format: "%.2f", 1.2399) # returns "1.20"
 </code></pre>
 
 <p>To print to standard output:</p>
 
-<pre><code>	print("%.2f" % 1.2399) # just use print and string formatting
+<pre><code>	print(String(format: "%.2f", 1.2399)) # just use print and String(format:_:...) method inside it
 </code></pre>
 
-<p>Specific <a href="/errors/rounding/">rounding modes</a> and other parameters can be defined in a Context object:</p>
+<p>Specific <a href="/errors/rounding/">rounding modes</a>and other parameters can be defined with NumberFormatter().RoundingMode:</p>
 
-<pre><code>	getcontext().prec = 7
+<pre><code>	let formatter = NumberFormatter()
+	formatter.numberStyle = .decimal
+	formatter.minimumFractionDigits = 2
+	formatter.maximumFractionDigits = 2
+
+print(formatter.string(from: 2.625)) // "2.62"
+print(formatter.string(from: 2.635)) // "2.64"
 </code></pre>
 
 <h2 id="resources">Resources</h2>
 <ul>
-  <li><a href="http://docs.Swift.org/tutorial/floatingpoint.html">Floating Point Arithmetic: Issues and Limitations</a></li>
-  <li><a href="http://docs.Swift.org/library/decimal.html">The decimal module</a>
-    <ul>
-      <li><a href="http://docs.Swift.org/library/decimal.html#context-objects">Context objects</a></li>
-    </ul>
-  </li>
-  <li><a href="http://docs.Swift.org/library/stdtypes.html#string-formatting-operations">String formatting in Swift</a></li>
+  <li><a href="https://developer.apple.com/documentation/swift/floatingpoint">FloatingPoint | Apple Developer Documentation</a></li>
+  <li><a href="https://www.swiftbysundell.com/articles/formatting-numbers-in-swift/">Formatting numbers in Swift</a></li>
+  <li><a href="https://developer.apple.com/documentation/foundation/numberformatter/roundingmode">NumberFormatter.RoundingMode - Apple Developer Documentation</a></li>
+  <li><a href="https://stackoverflow.com/questions/38607869/what-is-nsnumberformatter-default-roundingmode">What is NSNumberFormatter default roundingMode</a></li>
 </ul>
 
 	  
